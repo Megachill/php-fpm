@@ -14,19 +14,19 @@ MAINTAINER Rico B.
 # +++++++++++++++++++++++++++++++++++++++++++++++++
 # Installing tools and PHP extensions using "apt", "docker-php", "pecl"
 
-# Install "curl"
-
+# Install "curl", "libmemcached-dev", "libpq-dev", "libjpeg-dev",
+# "libpng-dev", "libfreetype6-dev", "libssl-dev", "libmcrypt-dev",
 RUN apt-get update && \
-	apt-get install -y --no-install-recommends \
-	curl \
-	libmemcached-dev \
-	libz-dev \
-	libpq-dev \
-	libjpeg-dev \
-	libpng12-dev \
-	libfreetype6-dev \
-	libssl-dev \
-	libmcrypt-dev
+    apt-get install -y --no-install-recommends \
+        curl \
+        libmemcached-dev \
+        libz-dev \
+        libpq-dev \
+        libjpeg-dev \
+        libpng-dev \
+        libfreetype6-dev \
+        libssl-dev \
+        libmcrypt-dev
 
 # install php mcrypt ext
 RUN docker-php-ext-install mcrypt
