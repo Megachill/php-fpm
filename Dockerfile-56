@@ -1,0 +1,52 @@
+#
+# +++++++++++++++++++++++++++++++++++++++++++++++++
+# Setting up the image
+# +++++++++++++++++++++++++++++++++++++++++++++++++
+#
+
+FROM php:5.6-fpm
+
+MAINTAINER Rico B.
+
+#
+# +++++++++++++++++++++++++++++++++++++++++++++++++
+# Software install
+# +++++++++++++++++++++++++++++++++++++++++++++++++
+# Installing tools and PHP extensions using "apt", "docker-php", "pecl"
+
+# Install "curl"
+
+RUN apt-get update && \
+	apt-get install -y --no-install-recommends \
+	curl \
+	libmemcached-dev \
+	libz-dev \
+	libpq-dev \
+	libjpeg-dev \
+	libpng12-dev \
+	libfreetype6-dev \
+	libssl-dev \
+	libmcrypt-dev
+
+# install php mcrypt ext
+RUN docker-php-ext-install mcrypt
+
+# install php pdo_mysql ext
+RUN docker-php-ext-install mysqli \
+	&& docker-php-ext-install pdo_mysql
+# install pdo_pgsql ext
+RUN docker-php-ext-install pdo_pgsql
+
+#
+# +++++++++++++++++++++++++++++++++++++++++++++++++
+# gd:
+# +++++++++++++++++++++++++++++++++++++++++++++++++
+# 
+
+# install php gd lib
+RUN docker-php-ext-install gd && \
+    docker-php-ext-configure gd \
+        --enable-gd-native-ttf \
+        --with-jpeg-dir=/usr/lib \
+        --with-freetype-dir=/usr/include/freetype2 && \
+    docker-php-ext-install gd
