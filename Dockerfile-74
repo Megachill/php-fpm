@@ -1,0 +1,40 @@
+#
+# +++++++++++++++++++++++++++++++++++++++++++++++++
+# Setting up the image
+# +++++++++++++++++++++++++++++++++++++++++++++++++
+#
+
+FROM php:7.4-fpm
+
+MAINTAINER Rico B.
+
+#
+# +++++++++++++++++++++++++++++++++++++++++++++++++
+# Software install
+# +++++++++++++++++++++++++++++++++++++++++++++++++
+# Installing tools and PHP extensions using "apt", "docker-php", "pecl"
+
+# Install "curl", "libmemcached-dev", "libpq-dev", "libjpeg-dev",
+# "libpng-dev", "libfreetype6-dev", "libssl-dev", "libmcrypt-dev",
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends \
+		curl \
+		libmemcached-dev \
+		libz-dev \
+		libpq-dev \
+		libjpeg-dev \
+		libpng-dev \
+		libfreetype6-dev \
+		libssl-dev \
+		libmcrypt-dev \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Install the PHP pdo_mysql extention
+RUN docker-php-ext-install pdo_mysql
+# install pdo_pgsql
+RUN docker-php-ext-install pdo_pgsql
+# install php gd 
+RUN docker-php-ext-configure gd \
+	--with-jpeg=/usr/lib \
+	--with-freetype=/usr/include/freetype2
+RUN docker-php-ext-install gd
